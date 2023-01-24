@@ -186,8 +186,7 @@
           <!-- prettier-ignore -->
           <code class="code pre transform">
             const jsScripts = [
-                <em>// Add additional node modules here.</em>
-                <em>// for example:</em>
+                <em>// Add additional node modules below as in the following examples.</em>
                 <em>// `./node_modules/jquery/dist/jquery.js`,</em>
                 <em>// `./node_modules/jquery-validation/dist/jquery.validate.js`,</em>
                 <em>// `./node_modules/tw-elements/dist/js/**/*.js`,</em>
@@ -196,21 +195,20 @@
             ];
 
             const externalScripts = [
-                <em>// Place files here to be sourced separately.</em>
+                <em>// Files //src/js/external should be sourced separately.</em>
                 <em>// /src/js/exteneral</em>
 
                 `${options.paths.src.js}/external/**/*`,
             ];
 
             const tsScripts = [
-                <em>// Place Custom Javascript and Typescript in</em>
-                <em>// /src/js/libs</em>
+                <em>// Place custom Javascript and Typescript in the /src/js/libs directory</em>
 
                 `${options.paths.src.js}/libs/**/*.ts`,
             ];
 
             const cssScssStyles = [
-                <em>// Place custom CSS and SASS files in</em>
+                <em>// Place custom CSS and SASS files in the /src/css directory.</em>
                 <em>// /src/css</em>
 
                 `${options.paths.src.css}/**/*.scss`

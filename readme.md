@@ -102,8 +102,7 @@ Live changes to this file aren't handled by `yarn dev`.
 
 ```js
 const jsScripts = [
-    // Add additional node modules here.
-    // for example:
+    // Add additional node modules below as in the following examples.
     // `./node_modules/jquery/dist/jquery.js`,
     // `./node_modules/jquery-validation/dist/jquery.validate.js`,
     // `./node_modules/tw-elements/dist/js/**/*.js`,
@@ -112,22 +111,19 @@ const jsScripts = [
 ];
 
 const externalScripts = [
-    // Place files here to be sourced separately.
-    // /src/js/exteneral
+    // Files in /src/js/external should be sourced separately.
 
     `${options.paths.src.js}/external/**/*`,
 ];
 
 const tsScripts = [
-    // Place Custom Javascript and Typescript in
-    // /src/js/libs
+    // Place custom Javascript and Typescript in the /src/js/libs directory. 
 
     `${options.paths.src.js}/libs/**/*.ts`,
 ];
 
 const cssScssStyles = [
-    // Place custom CSS and SASS files in
-    // /src/css
+    // Place custom CSS and SASS files in the /src/css directory.
 
     `${options.paths.src.css}/**/*.scss`
 ];
