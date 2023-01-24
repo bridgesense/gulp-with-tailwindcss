@@ -1,6 +1,9 @@
 # Gulp with TailwindCSS Starter Kit
 
-Gulp with TailwindCSS v3 Starter Kit ( ~~Updated with [TailwindCSS JIT](https://github.com/tailwindlabs/tailwindcss-jit)~~ - **latest tailwind has JIT is built-in** ) - A repo which makes your development easier with predefined gulp tasks that help you to use [tailwindcss](https://github.com/tailwindcss/tailwindcss) with simple commands.
+Gulp with TailwindCSS v3 Starter Kit 
+
+A repo which makes your development easier with predefined gulp tasks that
+help you to use tailwindcss with simple commands.
 
 ## Included Tailwind Plugins
 
@@ -9,7 +12,7 @@ Gulp with TailwindCSS v3 Starter Kit ( ~~Updated with [TailwindCSS JIT](https://
 - @tailwindcss/typography
 
 
-## Why this Deviation?
+# Why this Deviation?
 Initially, I was looking for a script to deploy all assets of
 [TailwindCSS](https://tailwindcss.com/) 
 methodically. I stumbled on Manjunath's excellent gulp script. The first
@@ -31,7 +34,7 @@ easily be added as part of the build process and minified into a single file.
 As demonstrated in the original script, all <b>image assets</b> are optimized
 during the deployment state (yarn build).
 
-# Usage
+## Usage
 
 1. Install Dev Depedencies
 
@@ -51,7 +54,7 @@ npm run dev // or yarn dev
 npm run prod // or yarn prod
 ```
 
-# Configuration
+## Configuration
 
 To change the path of files and destination/build folder, edit options in **config.js** file
 
@@ -86,7 +89,7 @@ To change the path of files and destination/build folder, edit options in **conf
 }
 ```
 
-# Files Included
+## Files Included
 
 These settings can be changed in the following file **gulpfile.js** file.
 
