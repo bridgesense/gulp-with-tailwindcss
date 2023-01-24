@@ -27,14 +27,14 @@ a permanent feature.
 process. During the build stages for production, all HTML and custom
 scripting is minified.
 
-The build process (yarn build) cleans and creates a brand new destination
+The build process (yarn prod) cleans and creates a brand new destination
 directory instead of utilizing assets built during the development stage (yarn dev).
 
 Both script and style assets from [node modules](https://www.npmjs.com/) can
 easily be added as part of the build process and minified into a single file.
 
 As demonstrated in the original script, all <b>image assets</b> are optimized
-during the deployment state (yarn build).
+during the deployment state (yarn prod).
 
 ## Usage
 
