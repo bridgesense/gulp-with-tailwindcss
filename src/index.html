@@ -19,7 +19,10 @@
         Tailwind Plugins included:<br />
         @tailwindcss/typography, @tailwindcss/forms, @tailwindcss/line-clamp
       </p>
-      <div class="py-15 flex justify-center space-x-6">
+      <p class="w-full text-center text-white font-bold text-xl mb-6">
+        Based off the great work of: 
+      </p>
+      <div class="py-15 flex justify-center space-x-6 mb-10">
         <a
           class="github-button"
           href="https://github.com/manjumjn"
@@ -51,6 +54,28 @@
           >Download</a
         >
       </div>
+
+      <p class="w-full text-center text-white font-bold text-xl mb-6">
+        Altered for deployment: 
+      </p>
+      
+      <div class="py-15 flex justify-center space-x-6">
+         <a
+          class="github-button"
+          href="https://github.com/bridgesense/gulp-with-tailwindcss"
+          data-show-count="true"
+          aria-label="View bridgesense/gulp-with-tailwindcss on GitHub"
+          >Follow this Fork</a
+        >
+        <a
+          class="github-button"
+          href="https://github.com/bridgesense/gulp-with-tailwindcss/fork"
+          data-icon="octicon-repo-forked"
+          data-show-count="true"
+          aria-label="Fork bridgesense/gulp-with-tailwindcss on GitHub"
+          >Fork</a
+        >
+      </div>
     </header>
     <div class="mx-auto py-20 max-w-2xl">
       <img
@@ -59,19 +84,55 @@
         alt="Gulp with TailwindCSS"
       />
       <div class="instructions">
+        <div class="mb-10 text-gray-600">
+          <h4 class="sub-title">Why this Deviation?</h4>
+          <p>
+              Initially, I was looking for a script to deploy all assets of
+              <a href="https://tailwindcss.com/" class="font-bold">TailwindCSS</a>
+              methodically. I stumbled on Manjunath's excellent gulp script. The first
+              question that came to my mind, why doesn't the original TailwindCSS
+              distribute such a script? Well, the changes made for the production
+              environment have deviated so far from the intent of Manjunath's original
+              work that this fork will likely be a permanent feature.
+              <br />
+              ...
+              <br />
+          </p>
+          <p>
+              <a href="https://www.typescriptlang.org/" class="font-bold">Typescript</a> is now part of the compilation process. During
+              the build stages for production, all HTML and custom scripting is minified.
+              <br /><br />
+          </p>
+          <p>
+              The build process (yarn build) cleans and creates a brand new destination
+              directory instead of utilizing assets built during the development stage (yarn dev).
+              <br /><br />
+          </p>
+          <p>
+              Both script and style assets from <a href="https://www.npmjs.com/" class="font-bold">node modules</a> can easily be added as
+              part of the build process and minified into a single file.
+              <br /><br />
+          </p>
+          <p>
+              As demonstrated in the original script, all <b>image assets</b> are optimized
+              during the deployment state (yarn build).
+              <br /><br />
+          </p>
+        </div>
+
         <div class="mb-20 text-gray-700">
           <h4 class="sub-title">Usage</h4>
           <p>Use the following commands to get started.</p>
-          <code class="code transform translate-x-[20px]">
+          <code class="code transform">
             <em>// To Install Dev Depedencies</em><br />
-            npm install<br /><br />
+            npm install (or) yarn install<br /><br />
 
             <em>// To start development and server for live preview</em><br />
-            npm run dev<br /><br />
+            npm run dev (or) yarn dev<br /><br />
 
             <em>// To generate minifed,optamized files for production server</em
             ><br />
-            npm run prod
+            npm run prod (or) yarn build 
           </code>
         </div>
 
@@ -83,7 +144,7 @@
           </p>
           <!-- Ignore the messay code :P only for demo -->
           <!-- prettier-ignore -->
-          <code class="code pre transform translate-x-[-20px]">
+          <code class="code pre transform">
             config: { 
               ... port: 9050 <em>//Update port here</em>
             }, 
@@ -95,32 +156,75 @@
                 js: "./src/js", 
                 img: "./src/img" 
               }, 
-              dist: { 
-                base: "./dist", 
-                css: "./dist/css", 
-                js: "./dist/js", 
-                img: "./dist/img" 
+              dev: { 
+                base: "./public_html", 
+                css: "./public_html/css", 
+                js: "./public_html/js", 
+                img: "./public_html/img" 
               }, 
-              build: { 
-                base: "./build", 
-                css: "./build/css", 
-                js: "./build/js", 
-                img: "./build/img"
+              dist: { 
+                base: "./public_html", 
+                css: "./public_html/css", 
+                js: "./public_html/js", 
+                img: "./public_html/img"
               } 
             }
           </code>
         </div>
-      </div>
 
-      <div class="social">
-        <p class="w-full text-center">Want to connect with me?</p>
-        <div class="flex justify-center space-x-6">
-          <a href="https://manjumjn.com">Website</a>
-          <a href="https://www.facebook.com/manjumjn">Facebook</a>
-          <a href="https://twitter.com/manju_mjn">Twitter</a>
-          <a href="mailto:manjumjng2@gmail.com">Email Me</a>
+        <div class="mb-10 text-gray-600">
+          <h4 class="sub-title">Settings</h4>
+          <p>
+            These settings can be changed in the following file
+              <b class="font-bold">gulpfile.js</b> file.<br />
+              Make sure `yarn dev` is executed again after changes.
+          </p>
+          <!-- Ignore the messay code :P only for demo -->
+          <!-- prettier-ignore -->
+          <code class="code pre transform">
+            const jsScripts = [
+                <em>// Add additional node modules here.</em>
+                <em>// for example:</em>
+                <em>// `./node_modules/jquery/dist/jquery.js`,</em>
+                <em>// `./node_modules/jquery-validation/dist/jquery.validate.js`,</em>
+                <em>// `./node_modules/tw-elements/dist/js/**/*.js`,</em>
+
+                `${options.paths.src.js}/libs/**/*.js`,
+            ];
+
+            const externalScripts = [
+                <em>// Place files here to be sourced separately.</em>
+                <em>// /src/js/exteneral</em>
+
+                `${options.paths.src.js}/external/**/*`,
+            ];
+
+            const tsScripts = [
+                <em>// Place Custom Javascript and Typescript in</em>
+                <em>// /src/js/libs</em>
+
+                `${options.paths.src.js}/libs/**/*.ts`,
+            ];
+
+            const cssScssStyles = [
+                <em>// Place custom CSS and SASS files in</em>
+                <em>// /src/css</em>
+
+                `${options.paths.src.css}/**/*.scss`
+            ];
+
+            const auxFiles = [
+                <em>// Place custom PHP and server side scripts in</em>
+                <em>// /src where needed</em>
+
+                `${options.paths.src.base}/**/{*.,.}{htaccess,php,txt}`
+            ];
+
+          </code>
         </div>
-      </div>
+        
+        </div>
+
     </div>
 
     <script src="./js/scripts.js"></script>

@@ -1,1 +1,1 @@
-// External JS file like jquery etc which you do not wish to inlcuded in minification
+// External files that will have dedicated sourcing go here 

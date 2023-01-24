@@ -5,6 +5,10 @@
  *   Twitter : twitter.com/manju_mjn
  **/
 
+/**
+ *   Altered for Deployment : BridgeSense.com LLC
+ **/
+
 /*
   Usage:
   1. npm install //To install all dev dependencies of package
@@ -25,12 +29,46 @@ const imagemin = require("gulp-imagemin"); //To Optimize Images
 const cleanCSS = require("gulp-clean-css"); //To Minify CSS files
 const purgecss = require("gulp-purgecss"); // Remove Unused CSS from Styles
 const logSymbols = require("log-symbols"); //For Symbolic Console logs :) :P
+const ts = require('gulp-typescript'); // Typescript Processing 
+const sourcemaps = require('gulp-sourcemaps'); // Sourcemap Processing
+const htmlmin = require('gulp-htmlmin'); // Minify HTML Source
+
+const jsScripts = [
+    // sample node_module integration with jquery and ts-elements
+    // `./node_modules/jquery/dist/jquery.js`,
+    // `./node_modules/jquery-validation/dist/jquery.validate.js`,
+    // `./node_modules/tw-elements/dist/js/**/*.js`,
+    `${options.paths.src.js}/libs/**/*.js`,
+];
+
+const externalScripts = [
+    `${options.paths.src.js}/external/**/*`,
+];
+
+const tsScripts = [
+    `${options.paths.src.js}/libs/**/*.ts`,
+];
+
+const cssScssStyles = [
+    `${options.paths.src.css}/**/*.scss`
+];
+
+const auxFiles = [
+    `${options.paths.src.base}/**/{*.,.}{htaccess,php,txt}`
+];
 
 //Load Previews on Browser on dev
 function livePreview(done) {
   browserSync.init({
     server: {
-      baseDir: options.paths.dist.base,
+        baseDir: options.paths.dist.base,
+        middleware: function (req, res, next) {
+            res.setHeader("Access-Control-Allow-Credentials", "true");
+            res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS");
+            res.setHeader('Access-Control-Allow-Origin', 'https://js.peek.com');
+            next();
+        }
     },
     port: options.config.port || 5000,
   });
@@ -46,48 +84,70 @@ function previewReload(done) {
 
 //Development Tasks
 function devHTML() {
-  return src(`${options.paths.src.base}/**/*.html`).pipe(
-    dest(options.paths.dist.base)
-  );
+  return src(`${options.paths.src.base}/**/*.html`)
+  .pipe(dest(options.paths.dev.base));
+}
+
+function devAuxillary() {
+    return src(auxFiles)
+      .pipe(dest(options.paths.dev.base));
 }
 
 function devStyles() {
   const tailwindcss = require("tailwindcss");
-  return src(`${options.paths.src.css}/**/*.scss`)
+  return src(cssScssStyles)
     .pipe(sass().on("error", sass.logError))
     .pipe(dest(options.paths.src.css))
     .pipe(postcss([tailwindcss(options.config.tailwindjs)]))
     .pipe(concat({ path: "style.css" }))
-    .pipe(dest(options.paths.dist.css));
+    .pipe(dest(options.paths.dev.css));
 }
 
-function devScripts() {
-  return src([
-    `${options.paths.src.js}/libs/**/*.js`,
-    `${options.paths.src.js}/**/*.js`,
-    `!${options.paths.src.js}/**/external/*`,
-  ])
+function devExternalScripts(){
+    return src(externalScripts)
+    .pipe(dest(options.paths.dev.js + "/external"));
+}
+
+function devTypescript(){
+    return src(tsScripts)
+    .pipe(ts({
+            noImplicitAny: true,
+            module: 'amd',
+            outFile: 'tsbuild.js'
+    }))
+    .pipe(dest(options.paths.src.js + "/libs"));
+}
+
+function devJavascript() {
+    return src(jsScripts)
     .pipe(concat({ path: "scripts.js" }))
-    .pipe(dest(options.paths.dist.js));
+    .pipe(dest(options.paths.dev.js));
 }
 
 function devImages() {
-  return src(`${options.paths.src.img}/**/*`).pipe(
-    dest(options.paths.dist.img)
+    return src(`${options.paths.src.img}/**/*`)
+    .pipe(dest(options.paths.dev.img));
+}
+
+function devFonts() {
+  return src(`${options.paths.src.font}/**/*`).pipe(
+    dest(options.paths.dev.font)
   );
 }
 
 function watchFiles() {
   watch(
-    `${options.paths.src.base}/**/*.{html,php}`,
-    series(devHTML, devStyles, previewReload)
+    `${options.paths.src.base}/**/{*.,.}{html,htaccess,php,txt}`,
+    series(devHTML, devAuxillary, previewReload)
   );
   watch(
     [options.config.tailwindjs, `${options.paths.src.css}/**/*.scss`],
     series(devStyles, previewReload)
   );
-  watch(`${options.paths.src.js}/**/*.js`, series(devScripts, previewReload));
+  watch(`${options.paths.src.js}/**/*.ts`, devTypescript, devJavascript, previewReload);
+  watch(`${options.paths.src.js}/**/*.js`, series(devExternalScripts, devJavascript, previewReload));
   watch(`${options.paths.src.img}/**/*`, series(devImages, previewReload));
+  watch(`${options.paths.src.font}/**/*`, series(devFonts, previewReload));
   console.log("\n\t" + logSymbols.info, "Watching for Changes..\n");
 }
 
@@ -103,42 +163,65 @@ function devClean() {
 
 //Production Tasks (Optimized Build for Live/Production Sites)
 function prodHTML() {
-  return src(`${options.paths.src.base}/**/*.{html,php}`).pipe(
-    dest(options.paths.build.base)
-  );
+    return src(`${options.paths.src.base}/**/*.html`)
+        .pipe(htmlmin({
+          collapseWhitespace: true,
+          removeComments: true
+        }))
+        .pipe(dest(options.paths.dist.base));
+}
+
+function prodAuxillary() {
+    return src(auxFiles)
+      .pipe(dest(options.paths.dist.base));
 }
 
 function prodStyles() {
-  return src(`${options.paths.dist.css}/**/*`)
-    .pipe(
-      purgecss({
-        content: ["src/**/*.{html,js,php}"],
-        defaultExtractor: (content) => {
-          const broadMatches = content.match(/[^<>"'`\s]*[^<>"'`\s:]/g) || [];
-          const innerMatches =
-            content.match(/[^<>"'`\s.()]*[^<>"'`\s.():]/g) || [];
-          return broadMatches.concat(innerMatches);
-        },
-      })
-    )
+    const tailwindcss = require("tailwindcss");
+    return src(cssScssStyles)
+    .pipe(sass().on("error", sass.logError))
+    .pipe(dest(options.paths.src.css))
+    .pipe(postcss([tailwindcss(options.config.tailwindjs)]))
+    .pipe(concat({ path: "style.css" }))
+    .pipe(sourcemaps.init())
     .pipe(cleanCSS({ compatibility: "ie8" }))
-    .pipe(dest(options.paths.build.css));
+    .pipe(sourcemaps.write())
+    .pipe(dest(options.paths.dist.css));
 }
 
-function prodScripts() {
-  return src([
-    `${options.paths.src.js}/libs/**/*.js`,
-    `${options.paths.src.js}/**/*.js`,
-  ])
+function prodExternalScripts(){
+    return src(externalScripts)
+    .pipe(dest(options.paths.dist.js + "/external"));
+}
+
+function prodTypescript(){
+    return src(tsScripts)
+    .pipe(ts({
+            noImplicitAny: true,
+            module: 'amd',
+            outFile: 'tsbuild.js'
+    }))
+    .pipe(dest(options.paths.src.js + "/libs"));
+}
+
+function prodJavascript() {
+    return src(jsScripts)
     .pipe(concat({ path: "scripts.js" }))
-    .pipe(uglify())
-    .pipe(dest(options.paths.build.js));
+    .pipe(sourcemaps.init())
+    .pipe(uglify({mangle: {toplevel: true}}))
+    .pipe(sourcemaps.write())
+    .pipe(dest(options.paths.dist.js));
 }
 
 function prodImages() {
   return src(options.paths.src.img + "/**/*")
     .pipe(imagemin())
-    .pipe(dest(options.paths.build.img));
+    .pipe(dest(options.paths.dist.img));
+}
+
+function prodFonts() {
+  return src(options.paths.src.font + "/**/*")
+    .pipe(dest(options.paths.dist.font));
 }
 
 function prodClean() {
@@ -146,7 +229,10 @@ function prodClean() {
     "\n\t" + logSymbols.info,
     "Cleaning build folder for fresh start.\n"
   );
-  return src(options.paths.build.base, { read: false, allowEmpty: true }).pipe(
+    return src([
+        options.paths.dist.base,
+        options.paths.src.js + "/libs/tsbuild.js"
+    ], { read: false, allowEmpty: true }).pipe(
     clean()
   );
 }
@@ -154,20 +240,20 @@ function prodClean() {
 function buildFinish(done) {
   console.log(
     "\n\t" + logSymbols.info,
-    `Production build is complete. Files are located at ${options.paths.build.base}\n`
+    `Production build is complete. Files are located at ${options.paths.dist.base}\n`
   );
   done();
 }
 
 exports.default = series(
   devClean, // Clean Dist Folder
-  parallel(devStyles, devScripts, devImages, devHTML), //Run All tasks in parallel
+  parallel(devStyles, series(devTypescript,devJavascript), devExternalScripts, devImages, devFonts, devHTML, devAuxillary), //Run All tasks in parallel
   livePreview, // Live Preview Build
   watchFiles // Watch for Live Changes
 );
 
 exports.prod = series(
   prodClean, // Clean Build Folder
-  parallel(prodStyles, prodScripts, prodImages, prodHTML), //Run All tasks in parallel
+  parallel(prodStyles, series(prodTypescript,prodJavascript), prodExternalScripts, prodImages, prodFonts, prodHTML, prodAuxillary), //Run All tasks in parallel
   buildFinish
 );

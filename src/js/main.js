@@ -1,1 +1,1 @@
-//main.js file
+//main.js file for custom scripting

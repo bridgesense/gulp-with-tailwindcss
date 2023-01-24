@@ -1,5 +1,12 @@
+# site support files
 node_modules
-dist
-build
+public_html
 src/css/*.css
 *.lock
+
+# vm files
+.container
+
+# server files
+document_errors
+logs
