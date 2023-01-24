@@ -94,7 +94,7 @@ To change the path of files and destination/build folder, edit options in **conf
 }
 ```
 
-## Files Included
+## Include More Files Easily 
 
 These settings can be changed in the **gulpfile.js** file.
 
