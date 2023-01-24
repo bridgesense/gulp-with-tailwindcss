@@ -72,19 +72,22 @@ To change the path of files and destination/build folder, edit options in **conf
         base: "./src",
         css: "./src/css",
         js: "./src/js",
-        img: "./src/img"
+        img: "./src/img",
+        font: "./src/fonts"
      },
      dev: {
          base: "./public_html",
          css: "./public_html/css",
          js: "./public_html/js",
-         img: "./public_html/img"
+         img: "./public_html/img",
+         font: "./src/fonts"
      },
      dist: {
          base: "./public_html",
          css: "./public_html/css",
          js: "./public_html/js",
-         img: "./public_html/img"
+         img: "./public_html/img",
+         font: "./src/fonts"
      }
   }
   ...
