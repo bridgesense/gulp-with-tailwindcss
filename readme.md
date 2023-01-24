@@ -129,8 +129,7 @@ const cssScssStyles = [
 ];
 
 const auxFiles = [
-    // Place custom PHP and server side scripts in
-    // /src where needed
+    // Place custom PHP and server side scripts in the /src directory where needed.
 
     `${options.paths.src.base}/**/{*.,.}{htaccess,php,txt}`
 ];

@@ -56,7 +56,7 @@
       </div>
 
       <p class="w-full text-center text-white font-bold text-xl mb-6">
-        Altered for deployment: 
+        Altered for deployment at: 
       </p>
       
       <div class="py-15 flex justify-center space-x-6">
@@ -186,7 +186,7 @@
           <!-- prettier-ignore -->
           <code class="code pre transform">
             const jsScripts = [
-                <em>// Add additional node modules below as in the following examples.</em>
+                <em>// Add additional modules below as in the following examples.</em>
                 <em>// `./node_modules/jquery/dist/jquery.js`,</em>
                 <em>// `./node_modules/jquery-validation/dist/jquery.validate.js`,</em>
                 <em>// `./node_modules/tw-elements/dist/js/**/*.js`,</em>
@@ -196,27 +196,24 @@
 
             const externalScripts = [
                 <em>// Files //src/js/external should be sourced separately.</em>
-                <em>// /src/js/exteneral</em>
 
                 `${options.paths.src.js}/external/**/*`,
             ];
 
             const tsScripts = [
-                <em>// Place custom Javascript and Typescript in the /src/js/libs directory</em>
+                <em>// Place custom Javascript and Typescript in the /src/js/libs directory.</em>
 
                 `${options.paths.src.js}/libs/**/*.ts`,
             ];
 
             const cssScssStyles = [
                 <em>// Place custom CSS and SASS files in the /src/css directory.</em>
-                <em>// /src/css</em>
 
                 `${options.paths.src.css}/**/*.scss`
             ];
 
             const auxFiles = [
-                <em>// Place custom PHP and server side scripts in</em>
-                <em>// /src where needed</em>
+                <em>// Place custom PHP and server side scripts in the /src directory where needed.</em>
 
                 `${options.paths.src.base}/**/{*.,.}{htaccess,php,txt}`
             ];
