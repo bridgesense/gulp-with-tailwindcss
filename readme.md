@@ -16,10 +16,12 @@ help you to use tailwindcss with simple commands.
 Initially, I was looking for a script to deploy all assets of
 [TailwindCSS](https://tailwindcss.com/) 
 methodically. I stumbled on Manjunath's excellent gulp script. The first
-question that came to my mind, why doesn't the original TailwindCSS
-distribute such a script? Well, the changes made for the production
-environment have deviated so far from the intent of Manjunath's original
-work that this fork will likely be a permanent feature.
+question that came to my mind was, why doesn't the original TailwindCSS
+distribution include a script like this?
+
+Well, the changes made for the production environment have deviated so far
+from the intent of Manjunath's original work that this fork will likely be
+a permanent feature.
 
 [Typescript](https://www.typescriptlang.org/) is now part of the compilation
 process. During the build stages for production, all HTML and custom
