@@ -95,7 +95,7 @@ To change the path of files and destination/build folder, edit options in **conf
 
 These settings can be changed in the **gulpfile.js** file.
 
-Make sure `yarn dev` is executed again after changes.
+Live changes to this file aren't handled by `yarn dev`.
 
 ```js
 const jsScripts = [
