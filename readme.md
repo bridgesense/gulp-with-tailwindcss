@@ -100,7 +100,7 @@ Make sure `yarn dev` is executed again after changes.
 ```js
 const jsScripts = [
     // Add additional node modules here.
-    // for example:</em>
+    // for example:
     // `./node_modules/jquery/dist/jquery.js`,
     // `./node_modules/jquery-validation/dist/jquery.validate.js`,
     // `./node_modules/tw-elements/dist/js/**/*.js`,
@@ -117,21 +117,21 @@ const externalScripts = [
 
 const tsScripts = [
     // Place Custom Javascript and Typescript in
-    // /src/js/libs</em>
+    // /src/js/libs
 
     `${options.paths.src.js}/libs/**/*.ts`,
 ];
 
 const cssScssStyles = [
     // Place custom CSS and SASS files in
-    // /src/css</em>
+    // /src/css
 
     `${options.paths.src.css}/**/*.scss`
 ];
 
 const auxFiles = [
     // Place custom PHP and server side scripts in
-    // /src where needed</em>
+    // /src where needed
 
     `${options.paths.src.base}/**/{*.,.}{htaccess,php,txt}`
 ];
