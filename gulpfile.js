@@ -53,6 +53,11 @@ const cssScssStyles = [
     `${options.paths.src.css}/**/*.scss`
 ];
 
+
+const auxDirectories = [
+    // `${options.paths.src.base}/additional_stuff/**/*`, 
+];
+
 const auxFiles = [
     `${options.paths.src.base}/**/{*.,.}{htaccess,php,txt}`
 ];
@@ -88,8 +93,13 @@ function devHTML() {
   .pipe(dest(options.paths.dev.base));
 }
 
-function devAuxillary() {
-    return src(auxFiles)
+function devAuxDirectories() {
+    return src(auxDirectories, {base:"./src"})
+      .pipe(dest(options.paths.dev.base));
+}
+
+function devAuxFiles() {
+    return src(auxFiles, {base:"./src"})
       .pipe(dest(options.paths.dev.base));
 }
 
@@ -104,7 +114,7 @@ function devStyles() {
 }
 
 function devExternalScripts(){
-    return src(externalScripts)
+    return src(externalScripts, {base:"./asc"})
     .pipe(dest(options.paths.dev.js + "/external"));
 }
 
@@ -125,12 +135,12 @@ function devJavascript() {
 }
 
 function devImages() {
-    return src(`${options.paths.src.img}/**/*`)
+    return src(`${options.paths.src.img}/**/*`, {base:"./src"})
     .pipe(dest(options.paths.dev.img));
 }
 
 function devFonts() {
-  return src(`${options.paths.src.font}/**/*`).pipe(
+  return src(`${options.paths.src.font}/**/*`, {base:"./src"}).pipe(
     dest(options.paths.dev.font)
   );
 }
@@ -138,7 +148,7 @@ function devFonts() {
 function watchFiles() {
   watch(
     `${options.paths.src.base}/**/{*.,.}{html,htaccess,php,txt}`,
-    series(devHTML, devAuxillary, previewReload)
+    series(devHTML, devAuxDirectories, devAuxFiles, previewReload)
   );
   watch(
     [options.config.tailwindjs, `${options.paths.src.css}/**/*.scss`],
@@ -171,8 +181,13 @@ function prodHTML() {
         .pipe(dest(options.paths.dist.base));
 }
 
-function prodAuxillary() {
-    return src(auxFiles)
+function prodAuxDirectories() {
+    return src(auxDirectories, {base:"./src"})
+      .pipe(dest(options.paths.dist.base));
+}
+
+function prodAuxFiles() {
+    return src(auxFiles, {base:"./src"})
       .pipe(dest(options.paths.dist.base));
 }
 
@@ -190,7 +205,7 @@ function prodStyles() {
 }
 
 function prodExternalScripts(){
-    return src(externalScripts)
+    return src(externalScripts, {base:"./src"})
     .pipe(dest(options.paths.dist.js + "/external"));
 }
 
@@ -214,7 +229,7 @@ function prodJavascript() {
 }
 
 function prodImages() {
-  return src(options.paths.src.img + "/**/*")
+  return src(options.paths.src.img + "/**/*", {base:"./src"})
     .pipe(imagemin())
     .pipe(dest(options.paths.dist.img));
 }

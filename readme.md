@@ -128,6 +128,13 @@ const cssScssStyles = [
     `${options.paths.src.css}/**/*.scss`
 ];
 
+
+const auxDirectories = [
+    // Place file directories for files to be synced and referenced as is.
+    
+    `${options.paths.src.base}/additional_stuff/**/*`, 
+];
+
 const auxFiles = [
     // Place custom PHP and server side scripts in the /src directory where needed.
 
