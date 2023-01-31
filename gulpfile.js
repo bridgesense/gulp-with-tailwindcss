@@ -94,8 +94,12 @@ function devHTML() {
 }
 
 function devAuxDirectories() {
-    return src(auxDirectories, {base:"./src"})
-      .pipe(dest(options.paths.dev.base));
+    if (auxDirectories.length != 0) {
+        return src(auxDirectories, {base:"./src"})
+        .pipe(dest(options.paths.dev.base));
+    } else {
+        return src('.', {allowEMpty:true});
+    }
 }
 
 function devAuxFiles() {
@@ -182,8 +186,12 @@ function prodHTML() {
 }
 
 function prodAuxDirectories() {
-    return src(auxDirectories, {base:"./src"})
-      .pipe(dest(options.paths.dist.base));
+    if (auxDirectories.length != 0) {
+        return src(auxDirectories, {base:"./src"})
+        .pipe(dest(options.paths.dist.base));
+    } else {
+        return src('.', {allowEMpty:true});
+    }
 }
 
 function prodAuxFiles() {
@@ -262,13 +270,13 @@ function buildFinish(done) {
 
 exports.default = series(
   devClean, // Clean Dist Folder
-  parallel(devStyles, series(devTypescript,devJavascript), devExternalScripts, devImages, devFonts, devHTML, devAuxillary), //Run All tasks in parallel
+  parallel(devStyles, series(devTypescript,devJavascript), devExternalScripts, devImages, devFonts, devHTML, devAuxDirectories, devAuxFiles), //Run All tasks in parallel
   livePreview, // Live Preview Build
   watchFiles // Watch for Live Changes
 );
 
 exports.prod = series(
   prodClean, // Clean Build Folder
-  parallel(prodStyles, series(prodTypescript,prodJavascript), prodExternalScripts, prodImages, prodFonts, prodHTML, prodAuxillary), //Run All tasks in parallel
+  parallel(prodStyles, series(prodTypescript,prodJavascript), prodExternalScripts, prodImages, prodFonts, prodHTML, prodAuxDirectories, prodAuxFiles), //Run All tasks in parallel
   buildFinish
 );
