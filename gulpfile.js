@@ -140,14 +140,13 @@ function devJavascript() {
 }
 
 function devImages() {
-    return src(`${options.paths.src.img}/**/*`, {base:"./src"})
+    return src(`${options.paths.src.img}/**/*`, {base:options.paths.src.img})
     .pipe(dest(options.paths.dev.img));
 }
 
 function devFonts() {
-  return src(`${options.paths.src.font}/**/*`, {base:"./src"}).pipe(
-    dest(options.paths.dev.font)
-  );
+    return src(`${options.paths.src.font}/**/*`, {base:options.paths.src.font})
+    .pipe(dest(options.paths.dev.font));
 }
 
 function watchFiles() {
@@ -238,13 +237,13 @@ function prodJavascript() {
 }
 
 function prodImages() {
-  return src(options.paths.src.img + "/**/*", {base:"./src"})
+  return src(options.paths.src.img + "/**/*", {base:options.paths.src.img})
     .pipe(imagemin())
     .pipe(dest(options.paths.dist.img));
 }
 
 function prodFonts() {
-  return src(options.paths.src.font + "/**/*")
+  return src(options.paths.src.font + "/**/*", {base:options.paths.src.font})
     .pipe(dest(options.paths.dist.font));
 }
 
