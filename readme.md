@@ -80,14 +80,14 @@ To change the path of files and destination/build folder, edit options in **conf
          css: "./public_html/css",
          js: "./public_html/js",
          img: "./public_html/img",
-         font: "./src/fonts"
+         font: "./public_html/fonts"
      },
      dist: {
          base: "./public_html",
          css: "./public_html/css",
          js: "./public_html/js",
          img: "./public_html/img",
-         font: "./src/fonts"
+         font: "./public_html/fonts"
      }
   }
   ...
